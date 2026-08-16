@@ -1,0 +1,82 @@
+/**
+ * Configuración central del sitio.
+ * Este es el ÚNICO lugar donde se define el nombre, el dominio y los datos
+ * de contacto/redes. No hardcodear estos valores en ningún otro archivo:
+ * las plantillas y el build script siempre importan este módulo.
+ *
+ * Antes de publicar:
+ *  1. Reemplazar [NOMBRE_DEL_SITIO] por el nombre real.
+ *  2. Reemplazar siteUrl por el dominio final (sin barra final).
+ *  3. Completar/editar redes sociales y el copy de "Quiénes somos".
+ */
+module.exports = {
+  // Nombre público del sitio. Se usa en el header, footer, títulos y metadatos.
+  siteName: '[NOMBRE_DEL_SITIO]',
+
+  // Dominio final, SIN barra final. Todas las URLs absolutas (canonical, OG,
+  // sitemap, RSS, JSON-LD) se arman a partir de esta única variable.
+  siteUrl: 'https://example.com',
+
+  siteDescription:
+    'Noticias y resúmenes sobre construcción, reformas, mercado inmobiliario y novedades regulatorias en Argentina, con foco en la Ciudad de Buenos Aires.',
+
+  // Usado en og:locale y en los metadatos de idioma.
+  locale: 'es_AR',
+  language: 'es-AR',
+
+  // Cuenta de Twitter/X del sitio (sin @ para twitter:site se agrega en el template).
+  twitterHandle: '@nombredelsitio',
+
+  social: {
+    instagram: 'https://instagram.com/nombredelsitio',
+    twitter: 'https://twitter.com/nombredelsitio',
+    facebook: 'https://facebook.com/nombredelsitio',
+    linkedin: 'https://linkedin.com/company/nombredelsitio',
+  },
+
+  // Datos de contacto genéricos, mostrados en Quiénes somos / footer.
+  contactEmail: 'redaccion@example.com',
+
+  // Disclosure de titularidad obligatorio (footer + Quiénes somos).
+  owner: {
+    name: 'Hogarex',
+    url: 'https://hogarex.ar',
+  },
+
+  // Geo tags (meta geo.region / geo.placename) — foco CABA, contenido nacional cuando aplique.
+  geo: {
+    region: 'AR-C',
+    placename: 'Ciudad Autónoma de Buenos Aires, Argentina',
+    position: '-34.6037;-58.3816',
+  },
+
+  // Categorías del sitio. El "id" debe coincidir exactamente con el campo
+  // "cat" de cada post en content/posts.json.
+  categories: [
+    {
+      id: 'construccion',
+      label: 'Construcción',
+      description: 'Obra nueva, materiales, mano de obra y actualidad del sector de la construcción en Argentina.',
+    },
+    {
+      id: 'reformas',
+      label: 'Reformas',
+      description: 'Refacciones, ampliaciones, remodelaciones y créditos para reformar tu casa.',
+    },
+    {
+      id: 'inmobiliario',
+      label: 'Inmobiliario',
+      description: 'Mercado de compraventa y alquileres, precios, oferta y demanda en CABA y el resto del país.',
+    },
+    {
+      id: 'regulatorio',
+      label: 'Regulatorio',
+      description: 'Normativa, códigos de edificación, permisos de obra y cambios legales que afectan al sector.',
+    },
+    {
+      id: 'precios',
+      label: 'Precios',
+      description: 'Índices de costos, evolución de precios de materiales y del metro cuadrado.',
+    },
+  ],
+};
