@@ -165,7 +165,7 @@ function build() {
 
   // Assets estáticos
   copyDir(STYLES_SRC, path.join(DIST, 'styles'));
-  fs.copyFileSync(path.join(ASSETS_SRC, 'favicon.svg'), path.join(DIST, 'favicon.svg'));
+  copyDir(ASSETS_SRC, DIST);
 
   const elapsed = Date.now() - startedAt;
   console.log(`[build] Listo. Salida en /dist (${elapsed}ms)\n`);

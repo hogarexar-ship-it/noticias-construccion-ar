@@ -5,13 +5,12 @@
  * las plantillas y el build script siempre importan este módulo.
  *
  * Antes de publicar:
- *  1. Reemplazar [NOMBRE_DEL_SITIO] por el nombre real.
- *  2. Reemplazar siteUrl por el dominio final (sin barra final).
- *  3. Completar/editar redes sociales y el copy de "Quiénes somos".
+ *  1. Reemplazar siteUrl por el dominio final (sin barra final).
+ *  2. Completar/editar redes sociales y el copy de "Quiénes somos".
  */
 module.exports = {
   // Nombre público del sitio. Se usa en el header, footer, títulos y metadatos.
-  siteName: '[NOMBRE_DEL_SITIO]',
+  siteName: 'ReformAR',
 
   // Dominio final, SIN barra final. Todas las URLs absolutas (canonical, OG,
   // sitemap, RSS, JSON-LD) se arman a partir de esta única variable.

@@ -1,4 +1,4 @@
-# [NOMBRE_DEL_SITIO]
+# ReformAR
 
 Sitio editorial estático de noticias sobre **construcción, reformas, mercado inmobiliario y
 novedades regulatorias en Argentina** (foco en CABA, con contenido nacional cuando aplica).
@@ -41,7 +41,7 @@ scripts/lib/templates.js → funciones que arman el HTML de cada tipo de página
 scripts/lib/seo.js     → head SEO (meta tags, Open Graph, Twitter Card, JSON-LD)
 scripts/lib/utils.js   → helpers (slugs, fechas, URLs)
 src/styles/main.css    → CSS del sitio (se copia tal cual a /dist/styles)
-src/assets/favicon.svg → favicon
+src/assets/            → logo.png y otros archivos estáticos (se copian tal cual a /dist)
 dist/                  → salida generada por el build (no se versiona, ver .gitignore)
 ```
 
@@ -91,15 +91,18 @@ suma solo a la home, a su página de categoría, al sitemap y al RSS.
 
 ## Antes de publicar
 
-1. Reemplazar `[NOMBRE_DEL_SITIO]` en `site.config.js` (`siteName`) por el nombre real. Es la
-   única variable que hay que tocar: todos los templates y metadatos lo toman de ahí.
-2. Reemplazar `siteUrl` en `site.config.js` por el dominio final (sin `/` al final). De esa
+1. Reemplazar `siteUrl` en `site.config.js` por el dominio final (sin `/` al final). De esa
    variable salen todas las URLs absolutas: canonical, Open Graph, sitemap y RSS.
-3. Completar redes sociales, email de contacto y el copy de `content` en la sección
+2. Completar redes sociales, email de contacto y el copy de `content` en la sección
    "Quiénes somos" (hay placeholders marcados como `[PLACEHOLDER: ...]` en
    `scripts/lib/templates.js`, función `aboutPage`).
-4. Revisar/editar los 5 posts de ejemplo en `content/posts.json` o reemplazarlos por contenido
+3. Revisar/editar los 5 posts de ejemplo en `content/posts.json` o reemplazarlos por contenido
    real generado por la herramienta externa.
+4. `src/assets/logo.png` se usa como logo del header, favicon e imagen de Open Graph por
+   defecto. Si el archivo actual no tiene licencia confirmada para uso como marca/logo,
+   reemplazarlo antes de publicar por una versión con los derechos correspondientes (mismo
+   nombre de archivo, o actualizar las referencias en `scripts/lib/templates.js` y
+   `scripts/lib/seo.js`).
 
 ## Deploy
 

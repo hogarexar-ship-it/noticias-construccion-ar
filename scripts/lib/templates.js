@@ -26,7 +26,10 @@ function headerHtml(config, activeCat) {
 
   return `<header class="site-header">
     <div class="wrap site-header__inner">
-      <a class="site-header__logo" href="/">${escapeHtml(config.siteName)}</a>
+      <a class="site-header__logo" href="/">
+        <span class="site-header__logo-badge"><img src="/logo.png" alt="" width="24" height="24"></span>
+        <span class="site-header__logo-text">${escapeHtml(config.siteName)}</span>
+      </a>
       <nav class="site-nav" aria-label="Categorías">
         <ul>
             ${navItems}

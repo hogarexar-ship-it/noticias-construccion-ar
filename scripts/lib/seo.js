@@ -10,7 +10,7 @@ const { escapeHtml } = require('./utils');
 function renderHead(config, { title, description, canonical, image, type = 'website', jsonLd = [], robots = 'index, follow' }) {
   const fullTitle = title ? `${title} | ${config.siteName}` : config.siteName;
   const desc = escapeHtml(description);
-  const ogImage = image || `${config.siteUrl}/og-default.jpg`;
+  const ogImage = image || `${config.siteUrl}/logo.png`;
 
   const jsonLdBlocks = jsonLd
     .map((obj) => `<script type="application/ld+json">${JSON.stringify(obj)}</script>`)
@@ -45,7 +45,8 @@ function renderHead(config, { title, description, canonical, image, type = 'webs
     <meta name="geo.position" content="${config.geo.position}">
     <meta name="ICBM" content="${config.geo.position.replace(';', ', ')}">
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="/logo.png">
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="alternate" type="application/rss+xml" title="${escapeHtml(config.siteName)}" href="/rss.xml">
     ${jsonLdBlocks}`;
@@ -93,7 +94,7 @@ function articleJsonLd(config, post, canonical) {
       url: config.siteUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${config.siteUrl}/favicon.svg`,
+        url: `${config.siteUrl}/logo.png`,
       },
     },
     mainEntityOfPage: {
