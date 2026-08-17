@@ -83,6 +83,11 @@ module.exports = {
       description: 'Refacciones, ampliaciones, remodelaciones y créditos para reformar tu casa.',
     },
     {
+      id: 'precios',
+      label: 'Precios',
+      description: 'Índices de costos, evolución de precios de materiales y del metro cuadrado.',
+    },
+    {
       id: 'inmobiliario',
       label: 'Inmobiliario',
       description: 'Mercado de compraventa y alquileres, precios, oferta y demanda en CABA y el resto del país.',
@@ -91,11 +96,6 @@ module.exports = {
       id: 'regulatorio',
       label: 'Regulatorio',
       description: 'Normativa, códigos de edificación, permisos de obra y cambios legales que afectan al sector.',
-    },
-    {
-      id: 'precios',
-      label: 'Precios',
-      description: 'Índices de costos, evolución de precios de materiales y del metro cuadrado.',
     },
   ],
 };
