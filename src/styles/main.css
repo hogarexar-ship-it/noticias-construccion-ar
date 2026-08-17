@@ -443,6 +443,39 @@ button { font: inherit; }
 .not-found .section__title { border: none; font-size: 4rem; }
 
 /* ---------- Precios de mano de obra ---------- */
+.labor-prices__banner {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 8px;
+  padding: 24px 20px;
+  margin-bottom: 24px;
+}
+.labor-prices__banner-eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.8);
+}
+.labor-prices__banner-title {
+  color: var(--accent-ink);
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+.labor-prices__banner-sub {
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 560px;
+  margin-bottom: 18px;
+}
+.labor-prices__banner-cta.button {
+  background: var(--accent-ink);
+  color: var(--accent);
+  width: 100%;
+  text-align: center;
+}
+.labor-prices__banner-cta.button:hover { background: rgba(255, 255, 255, 0.9); }
+
 .labor-prices__intro { max-width: 720px; color: var(--text-muted); font-size: 1.02rem; }
 .labor-prices__updated { font-size: 0.85rem; color: var(--text-faint); margin-bottom: 24px; }
 
@@ -502,6 +535,17 @@ button { font: inherit; }
 @media (min-width: 780px) {
   .labor-prices__oficio { padding: 28px; }
   .labor-prices__cta .button { width: auto; }
+
+  .labor-prices__banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 32px 36px;
+  }
+  .labor-prices__banner-title { font-size: 1.7rem; margin-bottom: 8px; }
+  .labor-prices__banner-sub { margin-bottom: 0; }
+  .labor-prices__banner-cta.button { width: auto; flex-shrink: 0; }
 }
 
 /* ---------- Footer ---------- */

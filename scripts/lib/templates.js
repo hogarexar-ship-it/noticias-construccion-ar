@@ -492,7 +492,16 @@ function laborPricesPage(config, laborData, allPosts) {
 
   const content = `<section class="wrap section labor-prices">
         ${breadcrumbHtml([{ name: 'Inicio', path: '/' }, { name: config.laborPrices.navLabel }])}
-        <h1 class="section__title">${escapeHtml(config.laborPrices.title)}</h1>
+
+        <div class="labor-prices__banner">
+          <div class="labor-prices__banner-text">
+            <p class="labor-prices__banner-eyebrow">Guía de precios</p>
+            <h1 class="labor-prices__banner-title">¿Cuánto vale contratar un profesional en Argentina?</h1>
+            <p class="labor-prices__banner-sub">Lista de precios actualizada de electricista, plomero, gasista, pintor, cerrajero y albañil.</p>
+          </div>
+          <a class="button labor-prices__banner-cta" href="#${escapeHtml(laborData.oficios[0].id)}">Ver lista de precios ↓</a>
+        </div>
+
         <p class="labor-prices__intro">${escapeHtml(laborData.intro)}</p>
         <p class="labor-prices__updated">Última actualización: ${formatDateHuman(laborData.actualizado)}</p>
 
