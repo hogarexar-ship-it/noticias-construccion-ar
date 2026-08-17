@@ -58,6 +58,7 @@ Todo el contenido vive en **`content/posts.json`**, un array de objetos con esta
   "tag": "Mercado inmobiliario",
   "title": "Título de la noticia",
   "excerpt": "Resumen de 1-2 líneas que se muestra en las tarjetas y como meta description.",
+  "summary": "Opcional. Respuesta directa de 1 párrafo a la pregunta del título, para el bloque 'Resumen de la noticia' dentro del post. Si se omite, se usa el excerpt.",
   "date": "2026-08-20",
   "readTime": "4 min",
   "sourceName": "Nombre del medio de origen",
@@ -81,6 +82,9 @@ Reglas a respetar:
   propia.
 - **`content`**: HTML simple (párrafos, `<strong>`, `<em>`, listas). Se inyecta tal cual en la
   página del post, así que tiene que venir ya saneado/bien formado desde el origen.
+- **`summary`**: opcional; campo específico para el bloque "Resumen de la noticia" que se
+  muestra arriba de todo en la página del post (antes de la imagen y del cuerpo). Si no se
+  manda, el template usa `excerpt` como resumen. Ver la guía editorial más abajo.
 
 El build (`npm run build`) valida automáticamente que cada post tenga los campos obligatorios,
 que la categoría exista y que la fecha tenga el formato correcto, y corta con un mensaje de
@@ -88,6 +92,24 @@ error claro si algo no cumple.
 
 No hace falta tocar ningún template para que un post nuevo aparezca: en el próximo build se
 suma solo a la home, a su página de categoría, al sitemap y al RSS.
+
+### Guía editorial: escribir en formato pregunta-respuesta
+
+Todo post nuevo debe estar pensado como la respuesta a una pregunta real que alguien buscaría
+en Google, con la lógica de un asistente de IA respondiendo en el momento — pero en formato
+noticia, no de chat:
+
+1. **Título**: tiene que reflejar la pregunta o búsqueda concreta de la gente (quién, cuánto,
+   cómo, hasta cuándo), no solo el hecho en abstracto. Ejemplos ya usados en el sitio: "Créditos
+   UVA: qué bancos financian hoy la construcción...", "Alquiler temporario en CABA: quiénes deben
+   inscribirse y qué multas hay".
+2. **`excerpt`** (y `summary` si se manda aparte): responde esa pregunta en una sola oración
+   simple, directa, sin rodeos ni jerga — la respuesta tiene que entenderse aunque alguien lea
+   solo esa línea. Ese texto es lo que se muestra como bloque "Resumen de la noticia" arriba de
+   cada post, y es lo primero que ve el lector antes de la imagen y del desarrollo completo.
+3. **`content`**: recién ahí se desarrolla el resto — contexto, números, fuente, matices — para
+   quien quiere seguir leyendo. La nota completa siempre tiene que estar, el resumen inicial no
+   la reemplaza, solo capta la atención y adelanta la respuesta.
 
 ## Antes de publicar
 
@@ -103,6 +125,10 @@ suma solo a la home, a su página de categoría, al sitemap y al RSS.
    reemplazarlo antes de publicar por una versión con los derechos correspondientes (mismo
    nombre de archivo, o actualizar las referencias en `scripts/lib/templates.js` y
    `scripts/lib/seo.js`).
+5. La home incluye un anuncio nativo de Hogarex entre los rieles de "Últimas noticias"
+   (`nativeAd` en `site.config.js`, ícono en `src/assets/hogarex-icon.png`, función
+   `nativeAdHtml` en `scripts/lib/templates.js`). Para cambiar la pregunta/CTA alcanza con
+   editar `nativeAd.question` y `nativeAd.ctaText` en `site.config.js`.
 
 ## Deploy
 

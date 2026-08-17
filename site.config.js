@@ -35,6 +35,12 @@ module.exports = {
     url: 'https://hogarex.ar',
   },
 
+  // Anuncio nativo de Hogarex insertado entre noticias en la home (ver README).
+  nativeAd: {
+    question: '¿Necesitás un plomero de confianza?',
+    ctaText: 'Encontrá profesionales verificados en',
+  },
+
   // Geo tags (meta geo.region / geo.placename) — foco CABA, contenido nacional cuando aplique.
   geo: {
     region: 'AR-C',

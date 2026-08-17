@@ -78,7 +78,7 @@ function articleJsonLd(config, post, canonical) {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
     headline: post.title,
-    description: post.excerpt,
+    description: post.summary || post.excerpt,
     image: [post.image],
     datePublished: `${post.date}T08:00:00-03:00`,
     dateModified: `${post.date}T08:00:00-03:00`,

@@ -27,7 +27,7 @@ function headerHtml(config, activeCat) {
   return `<header class="site-header">
     <div class="wrap site-header__inner">
       <a class="site-header__logo" href="/">
-        <span class="site-header__logo-badge"><img src="/logo.png" alt="" width="34" height="34"></span>
+        <span class="site-header__logo-badge"><img src="/logo.png" alt="" width="40" height="40"></span>
         <span class="site-header__logo-text">${escapeHtml(config.siteName)}</span>
       </a>
       <nav class="site-nav" aria-label="Categorías">
@@ -113,6 +113,33 @@ function postCardHtml(config, post, { eager = false } = {}) {
       </article>`;
 }
 
+function newsRailHtml(config, category, posts) {
+  if (!posts.length) return '';
+  const cardsHtml = posts.map((p) => postCardHtml(config, p)).join('\n            ');
+  return `<section class="news-rail wrap">
+        <div class="news-rail__header">
+          <h2 class="news-rail__title">${escapeHtml(category.label)}</h2>
+          <a class="news-rail__link" href="${categoryPath(category.id)}">Ver todo ${escapeHtml(category.label)} →</a>
+        </div>
+        <div class="news-rail__track">
+            ${cardsHtml}
+        </div>
+      </section>`;
+}
+
+function nativeAdHtml(config) {
+  return `<aside class="native-ad wrap" aria-label="Publicidad">
+        <div class="native-ad__inner">
+          <span class="native-ad__badge">Publicidad</span>
+          <img class="native-ad__icon" src="/hogarex-icon.png" alt="Hogarex" width="56" height="56" loading="lazy">
+          <div class="native-ad__body">
+            <p class="native-ad__question">${escapeHtml(config.nativeAd.question)}</p>
+            <p class="native-ad__cta">${escapeHtml(config.nativeAd.ctaText)} <a href="${config.owner.url}" target="_blank" rel="noopener noreferrer sponsored">${escapeHtml(config.owner.name)} →</a></p>
+          </div>
+        </div>
+      </aside>`;
+}
+
 function breadcrumbHtml(items) {
   const lis = items
     .map((item, i) =>
@@ -132,11 +159,32 @@ function breadcrumbHtml(items) {
 /* Home                                                                 */
 /* ------------------------------------------------------------------ */
 
+function pickFeatured(posts, count) {
+  // Elige las noticias más recientes priorizando que sean de categorías distintas,
+  // para que el hero represente "lo más importante del momento" en todo el sitio
+  // y no vacíe el riel de una sola categoría cuando coinciden varias fechas recientes.
+  const featured = [];
+  const usedCats = new Set();
+  for (const post of posts) {
+    if (featured.length >= count) break;
+    if (usedCats.has(post.cat)) continue;
+    featured.push(post);
+    usedCats.add(post.cat);
+  }
+  for (const post of posts) {
+    if (featured.length >= count) break;
+    if (featured.includes(post)) continue;
+    featured.push(post);
+  }
+  return featured;
+}
+
 function homePage(config, posts) {
   const canonical = absoluteUrl(config, '/');
-  const featured = posts.slice(0, 4);
+  const featured = pickFeatured(posts, 3);
   const [hero, ...secondary] = featured;
-  const rest = posts.slice(4);
+  const featuredIds = new Set(featured.map((p) => p.id));
+  const rest = posts.filter((p) => !featuredIds.has(p.id));
 
   const head = renderHead(config, {
     title: null,
@@ -148,10 +196,20 @@ function homePage(config, posts) {
   });
 
   const secondaryHtml = secondary
-    .map((p) => postCardHtml(config, p))
+    .map((p) => postCardHtml(config, p, { eager: true }))
     .join('\n          ');
 
-  const restHtml = rest.map((p) => postCardHtml(config, p)).join('\n          ');
+  const rails = config.categories
+    .map((category) => ({ category, catPosts: rest.filter((p) => p.cat === category.id) }))
+    .filter(({ catPosts }) => catPosts.length > 0);
+
+  const adInsertIndex = Math.min(1, rails.length - 1);
+  const railsHtml = rails
+    .map(({ category, catPosts }, index) => {
+      const rail = newsRailHtml(config, category, catPosts);
+      return index === adInsertIndex ? `${nativeAdHtml(config)}\n\n      ${rail}` : rail;
+    })
+    .join('\n\n      ');
 
   const content = `<section class="hero wrap">
         <article class="hero__main">
@@ -166,6 +224,8 @@ function homePage(config, posts) {
               <time datetime="${hero.date}">${formatDateHuman(hero.date)}</time>
               <span aria-hidden="true">·</span>
               <span>${escapeHtml(hero.readTime)}</span>
+              <span aria-hidden="true">·</span>
+              <span>Fuente: ${escapeHtml(hero.sourceName)}</span>
             </p>
           </div>
         </article>
@@ -174,12 +234,11 @@ function homePage(config, posts) {
         </div>
       </section>
 
-      <section class="wrap section">
+      <section class="wrap news-rail__intro">
         <h2 class="section__title">Últimas noticias</h2>
-        <div class="card-grid">
-          ${restHtml || '<p>Todavía no hay más noticias cargadas.</p>'}
-        </div>
-      </section>`;
+      </section>
+
+      ${railsHtml || '<p class="wrap">Todavía no hay más noticias cargadas.</p>'}`;
 
   return layout({ config, head, activeCat: null, bodyClass: 'page-home', content });
 }
@@ -233,7 +292,7 @@ function postPage(config, post, relatedPosts) {
   const url = postPath(post);
   const canonical = absoluteUrl(config, url);
   const category = config.categories.find((c) => c.id === post.cat);
-  const description = post.excerpt || truncate(stripHtml(post.content), 160);
+  const description = post.summary || post.excerpt || truncate(stripHtml(post.content), 160);
 
   const head = renderHead(config, {
     title: post.title,
@@ -262,13 +321,16 @@ function postPage(config, post, relatedPosts) {
         <header class="post__header">
           ${categoryTagHtml(config, post)}
           <h1 class="post__title">${escapeHtml(post.title)}</h1>
-          <p class="post__excerpt">${escapeHtml(post.excerpt)}</p>
           <p class="card__meta">
             <time datetime="${post.date}">${formatDateHuman(post.date)}</time>
             <span aria-hidden="true">·</span>
             <span>${escapeHtml(post.readTime)}</span>
           </p>
         </header>
+        <div class="post__summary">
+          <p class="post__summary-label">Resumen de la noticia</p>
+          <p class="post__summary-text">${escapeHtml(post.summary || post.excerpt)}</p>
+        </div>
         <figure class="post__media">
           <img src="${post.image}" alt="${escapeHtml(post.title)}" loading="eager" fetchpriority="high" width="1260" height="750">
         </figure>

@@ -153,6 +153,7 @@ button { font: inherit; }
 /* ---------- Hero (home) ---------- */
 .hero {
   display: grid;
+  align-items: start;
   gap: 20px;
   padding: 24px 20px 8px;
 }
@@ -166,7 +167,7 @@ button { font: inherit; }
 .hero__title { font-size: 1.6rem; }
 .hero__title a { color: var(--text); }
 .hero__title a:hover { color: var(--accent); text-decoration: none; }
-.hero__excerpt { color: var(--text-muted); }
+.hero__excerpt { color: var(--text-muted); font-size: 1.02rem; }
 
 .hero__secondary {
   display: grid;
@@ -174,10 +175,80 @@ button { font: inherit; }
 }
 
 @media (min-width: 900px) {
-  .hero { grid-template-columns: 1.4fr 1fr; }
+  .hero { grid-template-columns: 1.3fr 1fr; }
   .hero__secondary { grid-template-columns: 1fr; }
   .hero__title { font-size: 2.1rem; }
 }
+
+/* ---------- Rieles de noticias por categoría ---------- */
+.news-rail__intro { padding: 24px 20px 0; }
+.news-rail__intro .section__title { border: none; padding-bottom: 0; margin-bottom: 0; }
+
+.news-rail { padding: 20px 20px 8px; }
+.news-rail__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.news-rail__title { font-size: 1.15rem; margin: 0; }
+.news-rail__link { font-size: 0.85rem; font-weight: 700; color: var(--accent); white-space: nowrap; }
+.news-rail__link:hover { text-decoration: underline; }
+.news-rail__track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 12px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.news-rail__track::-webkit-scrollbar { height: 8px; }
+.news-rail__track::-webkit-scrollbar-track { background: transparent; }
+.news-rail__track::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.news-rail__track .card {
+  flex: 0 0 250px;
+  scroll-snap-align: start;
+}
+@media (min-width: 620px) {
+  .news-rail__track .card { flex-basis: 270px; }
+}
+
+/* ---------- Anuncio nativo ---------- */
+.native-ad { padding: 4px 20px 28px; }
+.native-ad__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 16px 44px 16px 18px;
+}
+.native-ad__badge {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}
+.native-ad__icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+}
+.native-ad__body { min-width: 0; }
+.native-ad__question { margin: 0 0 4px; font-weight: 800; font-size: 1.05rem; color: var(--text); }
+.native-ad__cta { margin: 0; font-size: 0.92rem; color: var(--text-muted); }
+.native-ad__cta a { font-weight: 700; }
 
 /* ---------- Cards ---------- */
 .card-grid {
@@ -212,6 +283,7 @@ button { font: inherit; }
   font-size: 0.82rem;
   margin: 0;
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   align-items: center;
 }
@@ -228,7 +300,29 @@ button { font: inherit; }
 /* ---------- Post page ---------- */
 .post__header { padding-top: 8px; }
 .post__title { font-size: 1.9rem; }
-.post__excerpt { color: var(--text-muted); font-size: 1.05rem; }
+.post__summary {
+  margin: 18px 0;
+  padding: 16px 18px;
+  background: var(--bg-elevated-2);
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  max-width: 720px;
+}
+.post__summary-label {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+.post__summary-text {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text);
+}
 .post__media { margin: 20px 0; }
 .post__media img { width: 100%; border-radius: var(--radius); aspect-ratio: 16 / 9; object-fit: cover; }
 .post__content {
