@@ -319,8 +319,8 @@ button { font: inherit; }
 }
 
 /* ---------- Anuncio nativo (banner Hogarex) ---------- */
-.native-ad { padding: 4px 20px 28px; }
-.native-ad__badge {
+.hogarex-spot { padding: 4px 20px 28px; }
+.hogarex-spot__badge {
   display: block;
   margin-bottom: 6px;
   font-size: 0.65rem;
@@ -329,14 +329,14 @@ button { font: inherit; }
   letter-spacing: 0.04em;
   color: var(--text-faint);
 }
-.native-ad__banner {
+.hogarex-spot__banner {
   display: block;
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid var(--border);
 }
-.native-ad__banner img { width: 100%; height: auto; aspect-ratio: 1280 / 630; object-fit: cover; }
-.native-ad__banner:hover { opacity: 0.94; }
+.hogarex-spot__banner img { width: 100%; height: auto; aspect-ratio: 1280 / 630; object-fit: cover; }
+.hogarex-spot__banner:hover { opacity: 0.94; }
 
 /* ---------- Cards ---------- */
 .card-grid {

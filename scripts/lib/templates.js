@@ -163,9 +163,9 @@ function newsRailHtml(config, category, posts) {
 }
 
 function nativeAdHtml(config) {
-  return `<aside class="native-ad wrap" aria-label="Publicidad">
-        <span class="native-ad__badge">Publicidad</span>
-        <a class="native-ad__banner" href="${config.owner.url}" target="_blank" rel="noopener noreferrer sponsored" aria-label="${escapeHtml(config.nativeAd.question)} — ${escapeHtml(config.owner.name)}">
+  return `<aside class="hogarex-spot wrap" aria-label="Publicidad">
+        <span class="hogarex-spot__badge">Publicidad</span>
+        <a class="hogarex-spot__banner" href="${config.owner.url}" target="_blank" rel="noopener noreferrer sponsored" aria-label="${escapeHtml(config.nativeAd.question)} — ${escapeHtml(config.owner.name)}">
           <img src="/hogarex-banner.png" alt="${escapeHtml(config.owner.name)}: ${escapeHtml(config.nativeAd.question)}" width="1280" height="630" loading="lazy">
         </a>
       </aside>`;
