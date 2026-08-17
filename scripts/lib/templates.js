@@ -1,6 +1,6 @@
 'use strict';
 
-const { renderHead, websiteJsonLd, articleJsonLd, breadcrumbJsonLd } = require('./seo');
+const { renderHead, websiteJsonLd, articleJsonLd, breadcrumbJsonLd, faqJsonLd } = require('./seo');
 const {
   escapeHtml,
   formatDateHuman,
@@ -24,6 +24,9 @@ function headerHtml(config, activeCat) {
     })
     .join('\n              ');
 
+  const isPricesActive = activeCat === 'precios-mano-de-obra';
+  const pricesNavItem = `<li><a href="${config.laborPrices.path}"${isPricesActive ? ' class="is-active" aria-current="page"' : ''}>${escapeHtml(config.laborPrices.navLabel)}</a></li>`;
+
   return `<header class="site-header">
     <div class="wrap site-header__inner">
       <a class="site-header__logo" href="/">
@@ -37,6 +40,7 @@ function headerHtml(config, activeCat) {
       <nav class="site-nav" id="site-nav" aria-label="Categorías">
         <ul>
               ${navItems}
+              ${pricesNavItem}
         </ul>
       </nav>
     </div>
@@ -90,6 +94,7 @@ function footerHtml(config) {
         <p class="site-footer__heading">Secciones</p>
         <ul class="site-footer__links">
               ${catLinks}
+              <li><a href="${config.laborPrices.path}">${escapeHtml(config.laborPrices.navLabel)}</a></li>
         </ul>
       </div>
     </div>
@@ -404,14 +409,110 @@ function aboutPage(config, allPosts) {
         ${breadcrumbHtml([{ name: 'Inicio', path: '/' }, { name: 'Quiénes somos' }])}
         <h1 class="section__title">Quiénes somos</h1>
         <div class="about__body">
-          <p>[PLACEHOLDER: reemplazar por el copy editorial definitivo. Sugerencia de estructura: qué es ${escapeHtml(config.siteName)}, qué cubre (construcción, reformas, inmobiliario y novedades regulatorias en Argentina, con foco en CABA y alcance nacional cuando corresponde), a quién está dirigido y cuál es el criterio editorial para seleccionar y resumir noticias.]</p>
-          <p>[PLACEHOLDER: método de trabajo — cómo se seleccionan y resumen las noticias, y por qué siempre se cita y enlaza la fuente original de cada nota.]</p>
-          <p>[PLACEHOLDER: forma de contacto — sugerencias, correcciones o prensa a <a href="mailto:${config.contactEmail}">${config.contactEmail}</a>.]</p>
-          <p class="about__disclosure">${escapeHtml(config.siteName)} es un proyecto de <a href="${config.owner.url}" target="_blank" rel="noopener noreferrer">${escapeHtml(config.owner.name)}</a>.</p>
+          <p>${escapeHtml(config.siteName)} es un sitio de noticias que resume todos los días la actualidad de la construcción, las reformas, el mercado inmobiliario y la regulación del sector en Argentina, con foco en la Ciudad de Buenos Aires y alcance nacional cuando la noticia lo amerita. Está pensado para quien está por construir, reformar, comprar, alquilar o vender, y no tiene tiempo de rastrear diez fuentes distintas para enterarse de lo importante.</p>
+          <p>Cada nota que publicamos es un resumen propio: leemos la cobertura de medios especializados y generalistas, y la volvemos a contar con nuestras palabras, en un formato breve y directo. Nunca copiamos el texto de la fuente: al final de cada artículo citamos y enlazamos la nota original para que quien quiera profundizar pueda hacerlo.</p>
+          <p>También publicamos una sección de <a href="${config.laborPrices.path}">precios de mano de obra por oficio</a>, con rangos de referencia para los trabajos más pedidos del hogar, actualizados periódicamente.</p>
+          <p>Para sugerencias, correcciones o consultas de prensa, podés escribirnos a <a href="mailto:${config.contactEmail}">${config.contactEmail}</a>.</p>
+          <p class="about__disclosure">${escapeHtml(config.siteName)} es un proyecto de <a href="${config.owner.url}" target="_blank" rel="noopener noreferrer">${escapeHtml(config.owner.name)}</a>, un marketplace de profesionales del hogar en Argentina.</p>
         </div>
       </section>`;
 
   return layout({ config, head, activeCat: null, bodyClass: 'page-about', content, posts: allPosts });
+}
+
+/* ------------------------------------------------------------------ */
+/* Precios de mano de obra                                              */
+/* ------------------------------------------------------------------ */
+
+function oficioSectionHtml(config, oficio) {
+  const rowsHtml = oficio.items
+    .map(
+      (item) => `<tr>
+              <td>${escapeHtml(item.tarea)}</td>
+              <td>${escapeHtml(item.rango)}</td>
+            </tr>`
+    )
+    .join('\n            ');
+
+  return `<section class="labor-prices__oficio" id="${escapeHtml(oficio.id)}">
+        <h2 class="labor-prices__oficio-title">${oficio.emoji ? `${oficio.emoji} ` : ''}${escapeHtml(oficio.titulo)}</h2>
+        <p class="labor-prices__oficio-desc">${escapeHtml(oficio.resumen)}</p>
+        <div class="labor-prices__table-wrap">
+          <table class="labor-prices__table">
+            <thead>
+              <tr>
+                <th scope="col">Trabajo</th>
+                <th scope="col">Precio de referencia</th>
+              </tr>
+            </thead>
+            <tbody>
+            ${rowsHtml}
+            </tbody>
+          </table>
+        </div>
+        <p class="labor-prices__cta">
+          <a class="button" href="https://hogarex.ar/solicitud-enviar" target="_blank" rel="noopener noreferrer sponsored">¿Buscando un ${escapeHtml(oficio.profesion)}? Pedí presupuesto en Hogarex →</a>
+        </p>
+      </section>`;
+}
+
+function laborPricesPage(config, laborData, allPosts) {
+  const canonical = absoluteUrl(config, config.laborPrices.path);
+  const faqBlock = laborData.faq && laborData.faq.length ? faqJsonLd(laborData.faq) : null;
+
+  const head = renderHead(config, {
+    title: config.laborPrices.title,
+    description: config.laborPrices.description,
+    canonical,
+    image: config.laborPrices.image,
+    type: 'website',
+    jsonLd: [
+      breadcrumbJsonLd(config, [
+        { name: 'Inicio', url: absoluteUrl(config, '/') },
+        { name: config.laborPrices.navLabel, url: canonical },
+      ]),
+      ...(faqBlock ? [faqBlock] : []),
+    ],
+  });
+
+  const oficiosNavHtml = laborData.oficios
+    .map((o) => `<a href="#${escapeHtml(o.id)}">${o.emoji ? `${o.emoji} ` : ''}${escapeHtml(o.titulo)}</a>`)
+    .join('\n          ');
+
+  const oficiosHtml = laborData.oficios.map((o) => oficioSectionHtml(config, o)).join('\n\n      ');
+
+  const faqHtml = (laborData.faq || [])
+    .map(
+      (item) => `<div class="labor-prices__faq-item">
+          <h3>${escapeHtml(item.pregunta)}</h3>
+          <p>${escapeHtml(item.respuesta)}</p>
+        </div>`
+    )
+    .join('\n        ');
+
+  const content = `<section class="wrap section labor-prices">
+        ${breadcrumbHtml([{ name: 'Inicio', path: '/' }, { name: config.laborPrices.navLabel }])}
+        <h1 class="section__title">${escapeHtml(config.laborPrices.title)}</h1>
+        <p class="labor-prices__intro">${escapeHtml(laborData.intro)}</p>
+        <p class="labor-prices__updated">Última actualización: ${formatDateHuman(laborData.actualizado)}</p>
+
+        <nav class="labor-prices__jumplinks" aria-label="Ir a un oficio">
+          ${oficiosNavHtml}
+        </nav>
+
+        ${oficiosHtml}
+
+        ${
+          faqHtml
+            ? `<section class="labor-prices__faq">
+          <h2 class="section__title">Preguntas frecuentes</h2>
+          ${faqHtml}
+        </section>`
+            : ''
+        }
+      </section>`;
+
+  return layout({ config, head, activeCat: 'precios-mano-de-obra', bodyClass: 'page-labor-prices', content, posts: allPosts });
 }
 
 /* ------------------------------------------------------------------ */
@@ -443,5 +544,6 @@ module.exports = {
   categoryPage,
   postPage,
   aboutPage,
+  laborPricesPage,
   notFoundPage,
 };

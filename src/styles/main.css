@@ -442,6 +442,68 @@ button { font: inherit; }
 .not-found { text-align: center; padding: 80px 20px; }
 .not-found .section__title { border: none; font-size: 4rem; }
 
+/* ---------- Precios de mano de obra ---------- */
+.labor-prices__intro { max-width: 720px; color: var(--text-muted); font-size: 1.02rem; }
+.labor-prices__updated { font-size: 0.85rem; color: var(--text-faint); margin-bottom: 24px; }
+
+.labor-prices__jumplinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.labor-prices__jumplinks a {
+  display: inline-block;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.labor-prices__jumplinks a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+.labor-prices__oficio {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 16px;
+  margin-bottom: 20px;
+  scroll-margin-top: 90px;
+}
+.labor-prices__oficio-title { font-size: 1.25rem; margin-bottom: 8px; }
+.labor-prices__oficio-desc { color: var(--text-muted); max-width: 680px; }
+
+.labor-prices__table-wrap { overflow-x: auto; margin: 16px 0; }
+.labor-prices__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  min-width: 320px;
+}
+.labor-prices__table th,
+.labor-prices__table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.labor-prices__table th { font-weight: 800; color: var(--text-faint); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.04em; }
+.labor-prices__table td:last-child { font-weight: 700; white-space: nowrap; }
+
+.labor-prices__cta { margin: 16px 0 0; }
+.labor-prices__cta .button { width: 100%; text-align: center; }
+
+.labor-prices__faq { margin-top: 36px; }
+.labor-prices__faq-item { margin-bottom: 18px; max-width: 720px; }
+.labor-prices__faq-item h3 { font-size: 1.02rem; margin-bottom: 4px; }
+.labor-prices__faq-item p { color: var(--text-muted); }
+
+@media (min-width: 780px) {
+  .labor-prices__oficio { padding: 28px; }
+  .labor-prices__cta .button { width: auto; }
+}
+
 /* ---------- Footer ---------- */
 .site-footer {
   background: var(--masthead);

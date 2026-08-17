@@ -1,0 +1,104 @@
+{
+  "actualizado": "2026-08-17",
+  "intro": "Cuánto cobra hoy cada oficio para trabajos típicos del hogar en Argentina, con foco en CABA y GBA. Son rangos de referencia para la mano de obra sola (sin materiales, salvo que se indique lo contrario): sirven para no arrancar a ciegas antes de pedir presupuesto, no como precio cerrado.",
+  "oficios": [
+    {
+      "id": "electricista",
+      "profesion": "electricista",
+      "titulo": "Electricista",
+      "emoji": "💡",
+      "resumen": "Los trabajos eléctricos están entre los más pedidos en el hogar. El precio depende sobre todo de si hay que abrir pared, de la cantidad de bocas y de si el tablero ya tiene puesta a tierra.",
+      "items": [
+        { "tarea": "Visita técnica y diagnóstico", "rango": "$25.000 – $50.000" },
+        { "tarea": "Hora de electricista (sin materiales)", "rango": "$40.000 – $55.000" },
+        { "tarea": "Boca o tomacorriente nuevo", "rango": "$27.000 – $47.000" },
+        { "tarea": "Instalación eléctrica para aire acondicionado", "rango": "$43.000 – $76.000" },
+        { "tarea": "Termotanque eléctrico (colocación)", "rango": "$53.000 – $135.000" },
+        { "tarea": "Tablero completo (4-6 circuitos, con disyuntor)", "rango": "$200.000 – $360.000" }
+      ]
+    },
+    {
+      "id": "plomero",
+      "profesion": "plomero",
+      "titulo": "Plomero",
+      "emoji": "🔧",
+      "resumen": "En plomería el precio final varía mucho según la urgencia: una pérdida activa un domingo cuesta bastante más que el mismo trabajo agendado en horario hábil.",
+      "items": [
+        { "tarea": "Visita técnica y diagnóstico", "rango": "$18.000 – $40.000" },
+        { "tarea": "Hora de plomero (sin materiales)", "rango": "$30.000 – $52.000" },
+        { "tarea": "Cambio de canilla o grifería", "rango": "$30.000 – $55.000" },
+        { "tarea": "Destapación de cocina o baño", "rango": "$30.000 – $55.000" },
+        { "tarea": "Instalación de inodoro (mano de obra)", "rango": "$27.000 – $55.000" },
+        { "tarea": "Reforma de baño completa (solo mano de obra)", "rango": "$700.000 – $1.500.000" }
+      ]
+    },
+    {
+      "id": "gasista",
+      "profesion": "gasista",
+      "titulo": "Gasista matriculado",
+      "emoji": "🔥",
+      "resumen": "Cualquier trabajo con gas natural en Argentina exige gasista con matrícula habilitante (ENARGAS o el ente provincial correspondiente). No es un trámite opcional: contratar a alguien sin matrícula es un riesgo de seguridad y puede invalidar el seguro del hogar.",
+      "items": [
+        { "tarea": "Visita técnica matriculada", "rango": "$30.000 – $57.000" },
+        { "tarea": "Conexión de cocina o anafe", "rango": "$70.000 – $125.000" },
+        { "tarea": "Cambio de termotanque a gas", "rango": "$95.000 – $175.000" },
+        { "tarea": "Conexión de calefón (sin el equipo)", "rango": "$110.000 – $195.000" },
+        { "tarea": "Habilitación o rehabilitación de gas", "rango": "$240.000 – $360.000" }
+      ]
+    },
+    {
+      "id": "pintor",
+      "profesion": "pintor",
+      "titulo": "Pintor",
+      "emoji": "🎨",
+      "resumen": "El precio por m² de pintura depende del estado previo de la pared: si hay que enduir, lijar o tratar humedad antes, el presupuesto sube bastante frente a una pared ya lisa.",
+      "items": [
+        { "tarea": "Interior por m² (látex, 2 manos)", "rango": "$4.500 – $10.000" },
+        { "tarea": "Exterior por m² (acrílico + imprimación)", "rango": "$6.500 – $13.000" },
+        { "tarea": "Jornada de pintor calificado (8 hs)", "rango": "$52.000 – $83.000" },
+        { "tarea": "Departamento 2 ambientes (~50 m², todo incluido mano de obra)", "rango": "$415.000 – $730.000" }
+      ]
+    },
+    {
+      "id": "cerrajero",
+      "profesion": "cerrajero",
+      "titulo": "Cerrajero",
+      "emoji": "🔑",
+      "resumen": "Es el oficio con mayor recargo por horario: una apertura o cambio de cerradura de noche, fin de semana o feriado puede costar el doble que en horario diurno.",
+      "items": [
+        { "tarea": "Apertura de puerta sin daño (horario diurno)", "rango": "$25.000 – $60.000" },
+        { "tarea": "Apertura urgente (noche, fin de semana o feriado)", "rango": "$50.000 – $120.000" },
+        { "tarea": "Cambio de cerradura común (con materiales)", "rango": "$35.000 – $75.000" },
+        { "tarea": "Cerradura de alta seguridad (multipunto o blindada)", "rango": "$80.000 – $300.000" }
+      ]
+    },
+    {
+      "id": "albanil",
+      "profesion": "albañil",
+      "titulo": "Albañil",
+      "emoji": "🧱",
+      "resumen": "Para trabajos chicos se suele cotizar por jornada; para superficies grandes (revoques, contrapisos, colocación de pisos) el precio va por m² de mano de obra, sin el material.",
+      "items": [
+        { "tarea": "Jornada de albañil calificado (CABA)", "rango": "$47.000 – $78.000" },
+        { "tarea": "Revoque grueso por m² (mano de obra)", "rango": "$8.000 – $16.000" },
+        { "tarea": "Contrapiso por m²", "rango": "$10.000 – $23.000" },
+        { "tarea": "Colocación de cerámico por m² (mano de obra)", "rango": "$9.000 – $21.000" },
+        { "tarea": "Colocación de porcelanato por m² (mano de obra)", "rango": "$18.000 – $28.000" }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "pregunta": "¿Estos precios incluyen los materiales?",
+      "respuesta": "No, salvo que se indique lo contrario en la fila. Son valores de mano de obra: el profesional suele cotizar aparte los caños, cables, repuestos, artefactos o revestimientos que haga falta comprar."
+    },
+    {
+      "pregunta": "¿Por qué el mismo trabajo tiene precios tan distintos entre profesionales?",
+      "respuesta": "Porque entran en juego la zona, la trayectoria del matriculado, la urgencia y la dificultad real de la tarea una vez que la ve en persona. Para trabajos chicos, una diferencia del 30-50% entre presupuestos es normal; para trabajos grandes puede llegar al 100%. Por eso conviene pedir 2 o 3 presupuestos por escrito antes de contratar."
+    },
+    {
+      "pregunta": "¿Cada cuánto se actualizan estos precios?",
+      "respuesta": "Los revisamos periódicamente en base a relevamientos de medios especializados y a la evolución de la inflación en servicios. La fecha de la última actualización figura al principio de esta sección."
+    }
+  ]
+}

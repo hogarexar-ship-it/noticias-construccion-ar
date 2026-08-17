@@ -34,8 +34,7 @@ function renderHead(config, { title, description, canonical, image, type = 'webs
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="${config.twitterHandle}">
-    <meta name="twitter:title" content="${escapeHtml(title || config.siteName)}">
+    ${config.twitterHandle ? `<meta name="twitter:site" content="${config.twitterHandle}">\n    ` : ''}<meta name="twitter:title" content="${escapeHtml(title || config.siteName)}">
     <meta name="twitter:description" content="${desc}">
     <meta name="twitter:image" content="${ogImage}">
 
@@ -105,6 +104,21 @@ function articleJsonLd(config, post, canonical) {
   };
 }
 
+function faqJsonLd(faqItems) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.pregunta,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.respuesta,
+      },
+    })),
+  };
+}
+
 function breadcrumbJsonLd(config, items) {
   return {
     '@context': 'https://schema.org',
@@ -118,4 +132,4 @@ function breadcrumbJsonLd(config, items) {
   };
 }
 
-module.exports = { renderHead, websiteJsonLd, articleJsonLd, breadcrumbJsonLd };
+module.exports = { renderHead, websiteJsonLd, articleJsonLd, breadcrumbJsonLd, faqJsonLd };

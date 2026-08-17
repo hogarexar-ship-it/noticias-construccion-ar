@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const config = require('../site.config.js');
-const { homePage, categoryPage, postPage, aboutPage, notFoundPage } = require('./lib/templates');
+const { homePage, categoryPage, postPage, aboutPage, laborPricesPage, notFoundPage } = require('./lib/templates');
 const {
   postPath,
   categoryPath,
@@ -17,6 +17,7 @@ const {
 const ROOT = path.join(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
 const CONTENT_FILE = path.join(ROOT, 'content', 'posts.json');
+const LABOR_PRICES_FILE = path.join(ROOT, 'content', 'precios-mano-de-obra.json');
 const STYLES_SRC = path.join(ROOT, 'src', 'styles');
 const ASSETS_SRC = path.join(ROOT, 'src', 'assets');
 
@@ -56,6 +57,20 @@ function readPosts() {
   return sortByDateDesc(posts);
 }
 
+function readLaborPrices() {
+  const raw = fs.readFileSync(LABOR_PRICES_FILE, 'utf-8');
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch (err) {
+    throw new Error(`content/precios-mano-de-obra.json no es un JSON válido: ${err.message}`);
+  }
+  if (!Array.isArray(data.oficios) || !data.oficios.length) {
+    throw new Error('content/precios-mano-de-obra.json necesita al menos un oficio en "oficios".');
+  }
+  return data;
+}
+
 function emptyDir(dir) {
   fs.rmSync(dir, { recursive: true, force: true });
   fs.mkdirSync(dir, { recursive: true });
@@ -86,13 +101,21 @@ function copyDir(srcDir, destDir) {
   }
 }
 
-function buildSitemap(posts) {
-  const staticUrls = ['/', '/quienes-somos/', ...config.categories.map((c) => categoryPath(c.id))];
-  const postUrls = posts.map((p) => postPath(p));
+function buildSitemap(posts, laborPrices) {
+  const today = new Date().toISOString().slice(0, 10);
+  const latestPostDate = posts.length ? posts[0].date : today;
+
+  const staticUrls = [
+    { loc: '/', lastmod: latestPostDate },
+    { loc: '/quienes-somos/', lastmod: today },
+    { loc: config.laborPrices.path, lastmod: (laborPrices && laborPrices.actualizado) || today },
+    ...config.categories.map((c) => ({ loc: categoryPath(c.id), lastmod: latestPostDate })),
+  ];
+  const postUrls = posts.map((p) => ({ loc: postPath(p), lastmod: p.date }));
   const allUrls = [...staticUrls, ...postUrls];
 
   const urlEntries = allUrls
-    .map((u) => `  <url>\n    <loc>${absoluteUrl(config, u)}</loc>\n  </url>`)
+    .map((u) => `  <url>\n    <loc>${absoluteUrl(config, u.loc)}</loc>\n    <lastmod>${u.lastmod}</lastmod>\n  </url>`)
     .join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urlEntries}\n</urlset>\n`;
@@ -137,6 +160,9 @@ function build() {
   const posts = readPosts();
   console.log(`[build] ${posts.length} posts cargados desde content/posts.json`);
 
+  const laborPrices = readLaborPrices();
+  console.log(`[build] ${laborPrices.oficios.length} oficios cargados desde content/precios-mano-de-obra.json`);
+
   emptyDir(DIST);
 
   // Home
@@ -156,10 +182,11 @@ function build() {
 
   // Páginas estáticas
   writePage('/quienes-somos/', aboutPage(config, posts));
+  writePage(config.laborPrices.path, laborPricesPage(config, laborPrices, posts));
   writeFile('404.html', notFoundPage(config));
 
   // SEO: sitemap, RSS, robots
-  writeFile('sitemap.xml', buildSitemap(posts));
+  writeFile('sitemap.xml', buildSitemap(posts, laborPrices));
   writeFile('rss.xml', buildRss(posts));
   writeFile('robots.txt', buildRobots());
 

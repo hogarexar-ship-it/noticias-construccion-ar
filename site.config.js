@@ -3,10 +3,6 @@
  * Este es el ÚNICO lugar donde se define el nombre, el dominio y los datos
  * de contacto/redes. No hardcodear estos valores en ningún otro archivo:
  * las plantillas y el build script siempre importan este módulo.
- *
- * Antes de publicar:
- *  1. Reemplazar siteUrl por el dominio final (sin barra final).
- *  2. Completar/editar redes sociales y el copy de "Quiénes somos".
  */
 module.exports = {
   // Nombre público del sitio. Se usa en el header, footer, títulos y metadatos.
@@ -14,7 +10,7 @@ module.exports = {
 
   // Dominio final, SIN barra final. Todas las URLs absolutas (canonical, OG,
   // sitemap, RSS, JSON-LD) se arman a partir de esta única variable.
-  siteUrl: 'https://example.com',
+  siteUrl: 'https://www.reformar.digital',
 
   siteDescription:
     'Noticias y resúmenes sobre construcción, reformas, mercado inmobiliario y novedades regulatorias en Argentina, con foco en la Ciudad de Buenos Aires.',
@@ -24,10 +20,14 @@ module.exports = {
   language: 'es-AR',
 
   // Cuenta de Twitter/X del sitio (sin @ para twitter:site se agrega en el template).
-  twitterHandle: '@nombredelsitio',
+  // Dejar vacío ('') hasta tener una cuenta real: si está vacío, seo.js no imprime
+  // la etiqueta twitter:site en vez de mostrar un handle inventado.
+  twitterHandle: '',
 
   // Datos de contacto genéricos, mostrados en Quiénes somos / footer.
-  contactEmail: 'redaccion@example.com',
+  // TODO: confirmar que esta casilla exista y tenga a alguien leyéndola antes de
+  // depender de ella para contacto de lectores.
+  contactEmail: 'redaccion@reformar.digital',
 
   // Disclosure de titularidad obligatorio (footer + Quiénes somos).
   owner: {
@@ -54,6 +54,19 @@ module.exports = {
     region: 'AR-C',
     placename: 'Ciudad Autónoma de Buenos Aires, Argentina',
     position: '-34.6037;-58.3816',
+  },
+
+  // Página de precios de mano de obra por oficio (contenido en
+  // content/precios-mano-de-obra.json). Sección propia para SEO de cola larga
+  // ("cuánto cobra un electricista", "precio plomero 2026", etc.), separada de
+  // los posts de la categoría "precios".
+  laborPrices: {
+    path: '/precios-mano-de-obra/',
+    navLabel: 'Precios de mano de obra',
+    title: 'Precios de mano de obra por oficio en Argentina',
+    description:
+      'Cuánto cobra un electricista, plomero, gasista, pintor, cerrajero y albañil en Argentina: precios de referencia actualizados, oficio por oficio.',
+    image: 'https://images.pexels.com/photos/8985454/pexels-photo-8985454.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   },
 
   // Categorías del sitio. El "id" debe coincidir exactamente con el campo
