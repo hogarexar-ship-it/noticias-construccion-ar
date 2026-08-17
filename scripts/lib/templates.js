@@ -27,7 +27,7 @@ function headerHtml(config, activeCat) {
   return `<header class="site-header">
     <div class="wrap site-header__inner">
       <a class="site-header__logo" href="/">
-        <span class="site-header__logo-badge"><img src="/logo.png" alt="" width="24" height="24"></span>
+        <span class="site-header__logo-badge"><img src="/logo.png" alt="" width="34" height="34"></span>
         <span class="site-header__logo-text">${escapeHtml(config.siteName)}</span>
       </a>
       <nav class="site-nav" aria-label="Categorías">
@@ -41,9 +41,6 @@ function headerHtml(config, activeCat) {
 
 function footerHtml(config) {
   const year = new Date().getFullYear();
-  const socialLinks = Object.entries(config.social)
-    .map(([name, url]) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(name)}</a>`)
-    .join('\n          ');
 
   const catLinks = config.categories
     .map((cat) => `<li><a href="${categoryPath(cat.id)}">${escapeHtml(cat.label)}</a></li>`)
@@ -60,18 +57,6 @@ function footerHtml(config) {
         <p class="site-footer__heading">Secciones</p>
         <ul class="site-footer__links">
               ${catLinks}
-        </ul>
-      </div>
-      <div class="site-footer__col">
-        <p class="site-footer__heading">Seguinos</p>
-        <div class="site-footer__social">
-          ${socialLinks}
-        </div>
-        <p class="site-footer__heading site-footer__heading--spaced">Institucional</p>
-        <ul class="site-footer__links">
-          <li><a href="/quienes-somos/">Quiénes somos</a></li>
-          <li><a href="mailto:${config.contactEmail}">Contacto</a></li>
-          <li><a href="/rss.xml">RSS</a></li>
         </ul>
       </div>
     </div>

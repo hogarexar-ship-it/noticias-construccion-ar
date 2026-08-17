@@ -26,13 +26,6 @@ module.exports = {
   // Cuenta de Twitter/X del sitio (sin @ para twitter:site se agrega en el template).
   twitterHandle: '@nombredelsitio',
 
-  social: {
-    instagram: 'https://instagram.com/nombredelsitio',
-    twitter: 'https://twitter.com/nombredelsitio',
-    facebook: 'https://facebook.com/nombredelsitio',
-    linkedin: 'https://linkedin.com/company/nombredelsitio',
-  },
-
   // Datos de contacto genéricos, mostrados en Quiénes somos / footer.
   contactEmail: 'redaccion@example.com',
 
