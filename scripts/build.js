@@ -145,17 +145,17 @@ function build() {
   // Categorías
   config.categories.forEach((category) => {
     const catPosts = posts.filter((p) => p.cat === category.id);
-    writePage(categoryPath(category.id), categoryPage(config, category, catPosts));
+    writePage(categoryPath(category.id), categoryPage(config, category, catPosts, posts));
   });
 
   // Posts individuales
   posts.forEach((post) => {
     const related = posts.filter((p) => p.cat === post.cat && p.id !== post.id).slice(0, 3);
-    writePage(postPath(post), postPage(config, post, related));
+    writePage(postPath(post), postPage(config, post, related, posts));
   });
 
   // Páginas estáticas
-  writePage('/quienes-somos/', aboutPage(config));
+  writePage('/quienes-somos/', aboutPage(config, posts));
   writeFile('404.html', notFoundPage(config));
 
   // SEO: sitemap, RSS, robots

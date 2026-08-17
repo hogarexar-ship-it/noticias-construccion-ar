@@ -22,7 +22,7 @@ function headerHtml(config, activeCat) {
       const isActive = cat.id === activeCat;
       return `<li><a href="${categoryPath(cat.id)}"${isActive ? ' class="is-active" aria-current="page"' : ''}>${escapeHtml(cat.label)}</a></li>`;
     })
-    .join('\n            ');
+    .join('\n              ');
 
   return `<header class="site-header">
     <div class="wrap site-header__inner">
@@ -30,13 +30,46 @@ function headerHtml(config, activeCat) {
         <span class="site-header__logo-badge"><img src="/logo.png" alt="" width="40" height="40"></span>
         <span class="site-header__logo-text">${escapeHtml(config.siteName)}</span>
       </a>
-      <nav class="site-nav" aria-label="Categorías">
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+        <span class="visually-hidden">Abrir menú</span>
+        <span class="nav-toggle__bars" aria-hidden="true"></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Categorías">
         <ul>
-            ${navItems}
+              ${navItems}
         </ul>
       </nav>
     </div>
   </header>`;
+}
+
+function tickerHtml(config, posts) {
+  const latest = (posts || []).slice(0, 5);
+  const slides = [
+    { text: config.ticker.tagline, href: null },
+    ...latest.map((p) => ({
+      text: `${p.emoji ? `${p.emoji} ` : ''}${p.title}`,
+      href: postPath(p),
+    })),
+  ];
+
+  const itemsHtml = slides
+    .map((slide, i) => {
+      const inner = slide.href
+        ? `<a href="${slide.href}">${escapeHtml(slide.text)}</a>`
+        : `<span>${escapeHtml(slide.text)}</span>`;
+      return `<li class="ticker__item"${i === 0 ? '' : ' hidden'}>${inner}</li>`;
+    })
+    .join('\n              ');
+
+  return `<div class="ticker" data-ticker role="region" aria-label="Titulares destacados">
+    <div class="wrap ticker__inner">
+      <span class="ticker__label">${escapeHtml(config.ticker.label)}</span>
+      <ul class="ticker__track">
+              ${itemsHtml}
+      </ul>
+    </div>
+  </div>`;
 }
 
 function footerHtml(config) {
@@ -66,7 +99,7 @@ function footerHtml(config) {
   </footer>`;
 }
 
-function layout({ config, head, activeCat = null, bodyClass = '', content }) {
+function layout({ config, head, activeCat = null, bodyClass = '', content, posts = [] }) {
   return `<!DOCTYPE html>
 <html lang="es-AR">
   <head>
@@ -75,10 +108,12 @@ function layout({ config, head, activeCat = null, bodyClass = '', content }) {
   <body class="${bodyClass}">
     <a class="skip-link" href="#main">Saltar al contenido</a>
     ${headerHtml(config, activeCat)}
+    ${tickerHtml(config, posts)}
     <main id="main">
       ${content}
     </main>
     ${footerHtml(config)}
+    <script src="/main.js" defer></script>
   </body>
 </html>`;
 }
@@ -129,14 +164,10 @@ function newsRailHtml(config, category, posts) {
 
 function nativeAdHtml(config) {
   return `<aside class="native-ad wrap" aria-label="Publicidad">
-        <div class="native-ad__inner">
-          <span class="native-ad__badge">Publicidad</span>
-          <img class="native-ad__icon" src="/hogarex-icon.png" alt="Hogarex" width="56" height="56" loading="lazy">
-          <div class="native-ad__body">
-            <p class="native-ad__question">${escapeHtml(config.nativeAd.question)}</p>
-            <p class="native-ad__cta">${escapeHtml(config.nativeAd.ctaText)} <a href="${config.owner.url}" target="_blank" rel="noopener noreferrer sponsored">${escapeHtml(config.owner.name)} →</a></p>
-          </div>
-        </div>
+        <span class="native-ad__badge">Publicidad</span>
+        <a class="native-ad__banner" href="${config.owner.url}" target="_blank" rel="noopener noreferrer sponsored" aria-label="${escapeHtml(config.nativeAd.question)} — ${escapeHtml(config.owner.name)}">
+          <img src="/hogarex-banner.png" alt="${escapeHtml(config.owner.name)}: ${escapeHtml(config.nativeAd.question)}" width="1280" height="630" loading="lazy">
+        </a>
       </aside>`;
 }
 
@@ -240,14 +271,14 @@ function homePage(config, posts) {
 
       ${railsHtml || '<p class="wrap">Todavía no hay más noticias cargadas.</p>'}`;
 
-  return layout({ config, head, activeCat: null, bodyClass: 'page-home', content });
+  return layout({ config, head, activeCat: null, bodyClass: 'page-home', content, posts });
 }
 
 /* ------------------------------------------------------------------ */
 /* Categoría                                                            */
 /* ------------------------------------------------------------------ */
 
-function categoryPage(config, category, posts) {
+function categoryPage(config, category, posts, allPosts) {
   const canonical = absoluteUrl(config, categoryPath(category.id));
   const description = category.description;
 
@@ -281,14 +312,14 @@ function categoryPage(config, category, posts) {
         </div>
       </section>`;
 
-  return layout({ config, head, activeCat: category.id, bodyClass: 'page-category', content });
+  return layout({ config, head, activeCat: category.id, bodyClass: 'page-category', content, posts: allPosts || posts });
 }
 
 /* ------------------------------------------------------------------ */
 /* Post individual                                                      */
 /* ------------------------------------------------------------------ */
 
-function postPage(config, post, relatedPosts) {
+function postPage(config, post, relatedPosts, allPosts) {
   const url = postPath(post);
   const canonical = absoluteUrl(config, url);
   const category = config.categories.find((c) => c.id === post.cat);
@@ -353,14 +384,14 @@ function postPage(config, post, relatedPosts) {
           : ''
       }`;
 
-  return layout({ config, head, activeCat: post.cat, bodyClass: 'page-post', content });
+  return layout({ config, head, activeCat: post.cat, bodyClass: 'page-post', content, posts: allPosts || relatedPosts });
 }
 
 /* ------------------------------------------------------------------ */
 /* Quiénes somos                                                        */
 /* ------------------------------------------------------------------ */
 
-function aboutPage(config) {
+function aboutPage(config, allPosts) {
   const canonical = absoluteUrl(config, '/quienes-somos/');
   const head = renderHead(config, {
     title: 'Quiénes somos',
@@ -380,7 +411,7 @@ function aboutPage(config) {
         </div>
       </section>`;
 
-  return layout({ config, head, activeCat: null, bodyClass: 'page-about', content });
+  return layout({ config, head, activeCat: null, bodyClass: 'page-about', content, posts: allPosts });
 }
 
 /* ------------------------------------------------------------------ */

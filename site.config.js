@@ -41,6 +41,14 @@ module.exports = {
     ctaText: 'Encontrá profesionales verificados en',
   },
 
+  // Ticker/banner deslizante debajo del header, presente en todo el sitio.
+  // Primer slide siempre es la tagline; después rota con los títulos de las
+  // últimas noticias (se arma automáticamente en build time).
+  ticker: {
+    label: 'ReformAR',
+    tagline: 'El sitio de resúmenes diarios de noticias sobre construcción, reformas, inmobiliario y regulación en Argentina',
+  },
+
   // Geo tags (meta geo.region / geo.placename) — foco CABA, contenido nacional cuando aplique.
   geo: {
     region: 'AR-C',

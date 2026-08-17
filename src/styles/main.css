@@ -106,33 +106,135 @@ button { font: inherit; }
 }
 .site-header__logo:hover .site-header__logo-text { color: var(--accent); }
 
+/* ---------- Botón hamburguesa (mobile) ---------- */
+.nav-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.nav-toggle__bars,
+.nav-toggle__bars::before,
+.nav-toggle__bars::after {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.nav-toggle__bars { position: relative; }
+.nav-toggle__bars::before,
+.nav-toggle__bars::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+.nav-toggle__bars::before { top: -6px; }
+.nav-toggle__bars::after { top: 6px; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars { background: transparent; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars::before { top: 0; transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars::after { top: 0; transform: rotate(-45deg); }
+
 .site-nav {
   min-width: 0;
   flex: 1;
+  flex-basis: 100%;
+  display: none;
 }
+.site-nav.is-open { display: block; }
 .site-nav ul {
   display: flex;
-  gap: 4px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding-bottom: 2px;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 0 4px;
 }
-.site-nav ul::-webkit-scrollbar { display: none; }
 .site-nav a {
   display: block;
   white-space: nowrap;
-  padding: 8px 14px;
+  padding: 10px 14px;
   border-radius: var(--radius);
   color: var(--text);
   font-weight: 700;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
 }
 .site-nav a:hover { color: var(--accent); background: var(--bg-elevated-2); text-decoration: none; }
 .site-nav a.is-active { color: var(--accent-ink); background: var(--accent); }
 
 @media (min-width: 780px) {
-  .site-nav ul { justify-content: flex-end; }
+  .nav-toggle { display: none; }
+  .site-nav {
+    display: block;
+    flex-basis: auto;
+  }
+  .site-nav ul {
+    flex-direction: row;
+    gap: 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    justify-content: flex-end;
+    padding: 0 0 2px;
+  }
+  .site-nav ul::-webkit-scrollbar { display: none; }
+  .site-nav a { padding: 8px 14px; font-size: 0.92rem; }
+}
+
+/* ---------- Ticker deslizante ---------- */
+.ticker {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.ticker__inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  min-height: 20px;
+}
+.ticker__label {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+}
+.ticker__track {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ticker__item {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  animation: ticker-fade-in 0.4s ease;
+}
+.ticker__item[hidden] { display: none; }
+.ticker__item a { color: var(--accent-ink); }
+.ticker__item a:hover { text-decoration: underline; }
+
+@keyframes ticker-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker__item { animation: none; }
 }
 
 /* ---------- Tag / category pill ---------- */
@@ -216,39 +318,25 @@ button { font: inherit; }
   .news-rail__track .card { flex-basis: 270px; }
 }
 
-/* ---------- Anuncio nativo ---------- */
+/* ---------- Anuncio nativo (banner Hogarex) ---------- */
 .native-ad { padding: 4px 20px 28px; }
-.native-ad__inner {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 16px 44px 16px 18px;
-}
 .native-ad__badge {
-  position: absolute;
-  top: 8px;
-  right: 12px;
+  display: block;
+  margin-bottom: 6px;
   font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--text-faint);
 }
-.native-ad__icon {
-  flex-shrink: 0;
-  width: 56px;
-  height: 56px;
-  border-radius: 8px;
+.native-ad__banner {
+  display: block;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
 }
-.native-ad__body { min-width: 0; }
-.native-ad__question { margin: 0 0 4px; font-weight: 800; font-size: 1.05rem; color: var(--text); }
-.native-ad__cta { margin: 0; font-size: 0.92rem; color: var(--text-muted); }
-.native-ad__cta a { font-weight: 700; }
+.native-ad__banner img { width: 100%; height: auto; aspect-ratio: 1280 / 630; object-fit: cover; }
+.native-ad__banner:hover { opacity: 0.94; }
 
 /* ---------- Cards ---------- */
 .card-grid {
