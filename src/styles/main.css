@@ -69,13 +69,17 @@ button { font: inherit; }
 }
 .button:hover { background: var(--accent-strong); text-decoration: none; }
 
+/* ---------- Topbar fijo (header + ticker, se mantienen visibles al scrollear) ---------- */
+.site-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
 /* ---------- Header ---------- */
 .site-header {
   background: var(--bg-elevated);
   border-bottom: 3px solid var(--text);
-  position: sticky;
-  top: 0;
-  z-index: 50;
 }
 .site-header__inner {
   display: flex;
@@ -346,6 +350,27 @@ button { font: inherit; }
 @media (min-width: 620px) {
   .news-rail__track .card { flex-basis: 270px; }
 }
+
+/* ---------- Franja de Actualidad (home): fondo sutil para marcar que es otro tipo de
+   contenido, no del rubro del sitio, con bajada propia que lo explica. ---------- */
+.actualidad-strip { padding: 8px 20px 8px; }
+.actualidad-strip__panel {
+  background: var(--bg-elevated-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.actualidad-strip__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.actualidad-strip__title { font-size: 1.15rem; margin: 0 0 4px; }
+.actualidad-strip__desc { color: var(--text-muted); font-size: 0.85rem; margin: 0; max-width: 56ch; }
+.actualidad-strip .news-rail__link { flex-shrink: 0; }
 
 /* ---------- Anuncio nativo (banner Hogarex) ---------- */
 .hogarex-spot { padding: 4px 20px 28px; }

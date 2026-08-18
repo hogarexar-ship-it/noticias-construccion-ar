@@ -123,9 +123,11 @@ function layout({ config, head, activeCat = null, bodyClass = '', content, posts
   </head>
   <body class="${bodyClass}">
     <a class="skip-link" href="#main">Saltar al contenido</a>
-    ${headerHtml(config, activeCat)}
+    <div class="site-topbar">
+      ${headerHtml(config, activeCat)}
+      ${tickerHtml(config, posts)}
+    </div>
     ${subtitleHtml(config)}
-    ${tickerHtml(config, posts)}
     <main id="main">
       ${content}
     </main>
@@ -183,6 +185,26 @@ function newsRailHtml(config, category, posts) {
       </section>`;
 }
 
+function actualidadStripHtml(config, posts) {
+  const category = config.categories.find((c) => c.id === 'actualidad');
+  const label = category ? category.label : 'Actualidad';
+  const cardsHtml = posts.map((p) => postCardHtml(config, p)).join('\n            ');
+  return `<section class="actualidad-strip wrap">
+        <div class="actualidad-strip__panel">
+          <div class="actualidad-strip__header">
+            <div>
+              <h2 class="actualidad-strip__title">${escapeHtml(label)}</h2>
+              <p class="actualidad-strip__desc">Un poco más allá de construcción e inmobiliario: otras noticias de la Argentina que están en la conversación del día.</p>
+            </div>
+            <a class="news-rail__link" href="${categoryPath('actualidad')}">Ver todo ${escapeHtml(label)} →</a>
+          </div>
+          <div class="news-rail__track">
+            ${cardsHtml}
+          </div>
+        </div>
+      </section>`;
+}
+
 function nativeAdHtml(config, questionOverride) {
   const question = questionOverride || config.nativeAd.question;
   return `<aside class="hogarex-spot wrap" aria-label="Publicidad">
@@ -234,10 +256,17 @@ function pickFeatured(posts, count) {
 
 function homePage(config, posts) {
   const canonical = absoluteUrl(config, '/');
-  const featured = pickFeatured(posts, 3);
+  // "actualidad" nunca ocupa el hero ni los destacados: es contenido aparte del rubro del
+  // sitio (noticias generales/tendencia), así que se arma su propia franja más abajo, con
+  // fondo distinto y una bajada que aclara de qué se trata.
+  const featuredPool = posts.filter((p) => p.cat !== 'actualidad');
+  const featured = pickFeatured(featuredPool, 3);
   const [hero, ...secondary] = featured;
   const featuredIds = new Set(featured.map((p) => p.id));
   const rest = posts.filter((p) => !featuredIds.has(p.id));
+
+  const actualidadPosts = rest.filter((p) => p.cat === 'actualidad').slice(0, 3);
+  const railPosts = rest.filter((p) => p.cat !== 'actualidad');
 
   const head = renderHead(config, {
     title: null,
@@ -252,8 +281,11 @@ function homePage(config, posts) {
     .map((p) => postCardHtml(config, p, { eager: true }))
     .join('\n          ');
 
+  const actualidadHtml = actualidadPosts.length ? actualidadStripHtml(config, actualidadPosts) : '';
+
   const rails = config.categories
-    .map((category) => ({ category, catPosts: rest.filter((p) => p.cat === category.id) }))
+    .filter((category) => category.id !== 'actualidad')
+    .map((category) => ({ category, catPosts: railPosts.filter((p) => p.cat === category.id) }))
     .filter(({ catPosts }) => catPosts.length > 0);
 
   const adInsertIndex = Math.min(1, rails.length - 1);
@@ -286,6 +318,8 @@ function homePage(config, posts) {
           ${secondaryHtml}
         </div>
       </section>
+
+      ${actualidadHtml}
 
       <section class="wrap news-rail__intro">
         <h2 class="section__title">Últimas noticias</h2>

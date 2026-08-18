@@ -45,7 +45,7 @@ module.exports = {
   // Primer slide siempre es la tagline; después rota con los títulos de las
   // últimas noticias (se arma automáticamente en build time).
   ticker: {
-    label: 'ReformAR',
+    label: 'Últimas noticias',
     tagline: 'El sitio de resúmenes diarios de noticias sobre construcción, reformas, inmobiliario y regulación en Argentina',
   },
 
