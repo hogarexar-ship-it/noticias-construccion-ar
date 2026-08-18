@@ -97,5 +97,10 @@ module.exports = {
       label: 'Regulatorio',
       description: 'Normativa, códigos de edificación, permisos de obra y cambios legales que afectan al sector.',
     },
+    {
+      id: 'actualidad',
+      label: 'Actualidad',
+      description: 'Noticias generales y temas en tendencia en Argentina — un poco más allá de construcción e inmobiliario.',
+    },
   ],
 };

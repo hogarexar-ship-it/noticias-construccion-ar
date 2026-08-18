@@ -48,15 +48,25 @@ function headerHtml(config, activeCat) {
   </header>`;
 }
 
+function subtitleHtml(config) {
+  return `<div class="site-subtitle">
+    <div class="wrap">
+      <p>${escapeHtml(config.ticker.tagline)}</p>
+    </div>
+  </div>`;
+}
+
 function tickerHtml(config, posts) {
   const latest = (posts || []).slice(0, 5);
-  const slides = [
-    { text: config.ticker.tagline, href: null },
-    ...latest.map((p) => ({
-      text: `${p.emoji ? `${p.emoji} ` : ''}${p.title}`,
-      href: postPath(p),
-    })),
-  ];
+  // La tagline ahora vive fija en subtitleHtml() (siempre visible, sin animación),
+  // así que acá el ticker rota solo títulos de noticias. Si todavía no hay ningún
+  // post cargado, dejamos la tagline como único slide para no mostrar un ticker vacío.
+  const slides = latest.length
+    ? latest.map((p) => ({
+        text: `${p.emoji ? `${p.emoji} ` : ''}${p.title}`,
+        href: postPath(p),
+      }))
+    : [{ text: config.ticker.tagline, href: null }];
 
   const itemsHtml = slides
     .map((slide, i) => {
@@ -114,6 +124,7 @@ function layout({ config, head, activeCat = null, bodyClass = '', content, posts
   <body class="${bodyClass}">
     <a class="skip-link" href="#main">Saltar al contenido</a>
     ${headerHtml(config, activeCat)}
+    ${subtitleHtml(config)}
     ${tickerHtml(config, posts)}
     <main id="main">
       ${content}
