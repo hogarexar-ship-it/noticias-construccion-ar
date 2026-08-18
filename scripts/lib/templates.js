@@ -205,6 +205,22 @@ function actualidadStripHtml(config, posts) {
       </section>`;
 }
 
+// CTA hacia /precios-mano-de-obra/, reutilizando el mismo estilo (verde "herramienta") que
+// ya usa el banner de esa página, para que se reconozca como el mismo destino se lo vea donde
+// se lo vea (home o secciones de noticias relacionadas con costos de mano de obra).
+function laborPricesCtaHtml(config) {
+  return `<section class="labor-prices-cta wrap">
+        <div class="labor-prices__banner">
+          <div class="labor-prices__banner-text">
+            <p class="labor-prices__banner-eyebrow">Herramienta</p>
+            <h2 class="labor-prices__banner-title">¿Cuánto cobra un electricista, plomero o gasista hoy?</h2>
+            <p class="labor-prices__banner-sub">Consultá la lista de precios de referencia actualizada, oficio por oficio, antes de pedir un presupuesto.</p>
+          </div>
+          <a class="button labor-prices__banner-cta" href="${config.laborPrices.path}">Ver precios de mano de obra →</a>
+        </div>
+      </section>`;
+}
+
 function nativeAdHtml(config, questionOverride) {
   const question = questionOverride || config.nativeAd.question;
   return `<aside class="hogarex-spot wrap" aria-label="Publicidad">
@@ -321,6 +337,8 @@ function homePage(config, posts) {
 
       ${actualidadHtml}
 
+      ${laborPricesCtaHtml(config)}
+
       <section class="wrap news-rail__intro">
         <h2 class="section__title">Últimas noticias</h2>
       </section>
@@ -354,6 +372,12 @@ function categoryPage(config, category, posts, allPosts) {
 
   const cardsHtml = posts.map((p, i) => postCardHtml(config, p, { eager: i === 0 })).join('\n          ');
 
+  // En las categorías más ligadas a costos de mano de obra, sumamos el CTA a la sección de
+  // precios de mano de obra — es un destino relacionado que el lector de estas notas suele
+  // estar buscando.
+  const laborRelatedCats = ['precios', 'construccion', 'reformas'];
+  const laborCtaHtml = laborRelatedCats.includes(category.id) ? laborPricesCtaHtml(config) : '';
+
   const content = `<section class="wrap section category-header">
         ${breadcrumbHtml([
           { name: 'Inicio', path: '/' },
@@ -362,6 +386,7 @@ function categoryPage(config, category, posts, allPosts) {
         <h1 class="section__title">${escapeHtml(category.label)}</h1>
         <p class="category-header__desc">${escapeHtml(description)}</p>
       </section>
+      ${laborCtaHtml}
       <section class="wrap section">
         <div class="card-grid">
           ${cardsHtml || '<p>Todavía no hay noticias en esta categoría.</p>'}
