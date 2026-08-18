@@ -11,6 +11,11 @@
   --accent-strong: #003f87;
   --accent-ink: #ffffff;
   --link: #0057b8;
+  /* Color distintivo para secciones "herramienta" (no noticias), como precios de mano de obra. */
+  --tool: #0f7a5c;
+  --tool-strong: #0b5c45;
+  --tool-bg: #eaf7f2;
+  --tool-ink: #ffffff;
   --masthead: #14171a;
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --radius: 4px;
@@ -167,6 +172,14 @@ button { font: inherit; }
 }
 .site-nav a:hover { color: var(--accent); background: var(--bg-elevated-2); text-decoration: none; }
 .site-nav a.is-active { color: var(--accent-ink); background: var(--accent); }
+
+/* Link "herramienta" (precios de mano de obra): mismo componente, color distinto para
+   diferenciarlo de las categorías de noticias de un vistazo. */
+.site-nav a.site-nav__tool-link,
+.site-footer__links a.site-footer__tool-link { color: var(--tool); }
+.site-nav a.site-nav__tool-link:hover { color: var(--tool-strong); background: var(--tool-bg); }
+.site-nav a.site-nav__tool-link.is-active { color: var(--tool-ink); background: var(--tool); }
+.site-footer__links a.site-footer__tool-link { color: #7fd9bd; }
 
 @media (min-width: 780px) {
   .nav-toggle { display: none; }
@@ -444,8 +457,8 @@ button { font: inherit; }
 
 /* ---------- Precios de mano de obra ---------- */
 .labor-prices__banner {
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--tool);
+  color: var(--tool-ink);
   border-radius: 8px;
   padding: 24px 20px;
   margin-bottom: 24px;
@@ -459,7 +472,7 @@ button { font: inherit; }
   color: rgba(255, 255, 255, 0.8);
 }
 .labor-prices__banner-title {
-  color: var(--accent-ink);
+  color: var(--tool-ink);
   font-size: 1.4rem;
   margin-bottom: 10px;
 }
@@ -469,8 +482,8 @@ button { font: inherit; }
   margin-bottom: 18px;
 }
 .labor-prices__banner-cta.button {
-  background: var(--accent-ink);
-  color: var(--accent);
+  background: var(--tool-ink);
+  color: var(--tool-strong);
   width: 100%;
   text-align: center;
 }
@@ -487,19 +500,20 @@ button { font: inherit; }
 }
 .labor-prices__jumplinks a {
   display: inline-block;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
+  background: var(--tool-bg);
+  border: 1px solid var(--tool);
   border-radius: 999px;
   padding: 6px 14px;
   font-size: 0.88rem;
   font-weight: 700;
-  color: var(--text);
+  color: var(--tool-strong);
 }
-.labor-prices__jumplinks a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.labor-prices__jumplinks a:hover { background: var(--tool); color: var(--tool-ink); text-decoration: none; }
 
 .labor-prices__oficio {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
+  border-left: 4px solid var(--tool);
   border-radius: 8px;
   padding: 20px 16px;
   margin-bottom: 20px;
@@ -521,11 +535,12 @@ button { font: inherit; }
   padding: 10px 12px;
   border-bottom: 1px solid var(--border);
 }
-.labor-prices__table th { font-weight: 800; color: var(--text-faint); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.04em; }
-.labor-prices__table td:last-child { font-weight: 700; white-space: nowrap; }
+.labor-prices__table th { font-weight: 800; color: var(--tool-strong); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.04em; background: var(--tool-bg); }
+.labor-prices__table td:last-child { font-weight: 700; white-space: nowrap; color: var(--tool-strong); }
 
 .labor-prices__cta { margin: 16px 0 0; }
-.labor-prices__cta .button { width: 100%; text-align: center; }
+.labor-prices__cta .button { width: 100%; text-align: center; background: var(--tool); }
+.labor-prices__cta .button:hover { background: var(--tool-strong); }
 
 .labor-prices__faq { margin-top: 36px; }
 .labor-prices__faq-item { margin-bottom: 18px; max-width: 720px; }

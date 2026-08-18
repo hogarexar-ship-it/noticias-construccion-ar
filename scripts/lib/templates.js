@@ -25,7 +25,8 @@ function headerHtml(config, activeCat) {
     .join('\n              ');
 
   const isPricesActive = activeCat === 'precios-mano-de-obra';
-  const pricesNavItem = `<li><a href="${config.laborPrices.path}"${isPricesActive ? ' class="is-active" aria-current="page"' : ''}>${escapeHtml(config.laborPrices.navLabel)}</a></li>`;
+  const pricesNavClasses = ['site-nav__tool-link', ...(isPricesActive ? ['is-active'] : [])].join(' ');
+  const pricesNavItem = `<li><a href="${config.laborPrices.path}" class="${pricesNavClasses}"${isPricesActive ? ' aria-current="page"' : ''}>🛠️ ${escapeHtml(config.laborPrices.navLabel)}</a></li>`;
 
   return `<header class="site-header">
     <div class="wrap site-header__inner">
@@ -94,7 +95,7 @@ function footerHtml(config) {
         <p class="site-footer__heading">Secciones</p>
         <ul class="site-footer__links">
               ${catLinks}
-              <li><a href="${config.laborPrices.path}">${escapeHtml(config.laborPrices.navLabel)}</a></li>
+              <li><a href="${config.laborPrices.path}" class="site-footer__tool-link">🛠️ ${escapeHtml(config.laborPrices.navLabel)}</a></li>
         </ul>
       </div>
     </div>
