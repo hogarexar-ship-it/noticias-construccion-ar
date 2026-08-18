@@ -451,9 +451,10 @@ function oficioSectionHtml(config, oficio) {
             </tbody>
           </table>
         </div>
-        <p class="labor-prices__cta">
+        <div class="labor-prices__cta">
           <a class="button" href="https://hogarex.ar/solicitud-enviar" target="_blank" rel="noopener noreferrer sponsored">¿Buscando un ${escapeHtml(oficio.profesion)}? Pedí presupuesto en Hogarex →</a>
-        </p>
+          <a class="button button--outline" href="https://hogarex.ar/precios" target="_blank" rel="noopener noreferrer sponsored">Ver tabla de precios completa</a>
+        </div>
       </section>`;
 }
 
