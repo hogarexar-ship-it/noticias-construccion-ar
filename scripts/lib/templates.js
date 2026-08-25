@@ -451,7 +451,7 @@ function postPage(config, post, relatedPosts, allPosts) {
         </div>
         ${post.hogarexCta ? `\n        ${nativeAdHtml(config, post.hogarexCtaQuestion)}\n        ` : ''}
         <aside class="post__source">
-          <p><strong>Fuente:</strong> ${escapeHtml(post.sourceName)} — <a href="${post.sourceUrl}" target="_blank" rel="noopener noreferrer nofollow">ver nota original</a></p>
+          <p><strong>Fuente:</strong> ${escapeHtml(post.sourceName)}${post.sourceUrl ? ` — <a href="${post.sourceUrl}" target="_blank" rel="noopener noreferrer nofollow">ver nota original</a>` : ''}</p>
         </aside>
       </article>
 

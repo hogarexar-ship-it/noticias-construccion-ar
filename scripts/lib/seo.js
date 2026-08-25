@@ -100,7 +100,7 @@ function articleJsonLd(config, post, canonical) {
       '@type': 'WebPage',
       '@id': canonical,
     },
-    isBasedOn: post.sourceUrl,
+    ...(post.sourceUrl ? { isBasedOn: post.sourceUrl } : {}),
   };
 }
 
